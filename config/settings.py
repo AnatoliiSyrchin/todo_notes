@@ -143,8 +143,8 @@ REST_FRAMEWORK = {
         # "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_PARSER_CLASSES": [
-        "djangorestframework_camel_case.parser.CamelCaseFormParser",
-        # 'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        # "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
     ],
 }
