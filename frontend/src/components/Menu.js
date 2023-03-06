@@ -10,9 +10,15 @@ const Menu = () => {
     return (
         <nav style={{backgroundColor: 'lightgrey'}}>
             <ul style={{padding: '10px'}}>
-                <li style={menuStyle}>All User</li>
-                <li style={menuStyle}>Projects</li>
-                <li style={menuStyle}>TODO</li>
+                <li style={menuStyle}>
+                <a href='http://localhost:3000/'>All users</a>
+                </li>
+                <li style={menuStyle}>
+                    <a href='http://localhost:3000/'>Projects</a>
+                </li>
+                <li style={menuStyle}>
+                    <a href='http://localhost:3000/'>TODO</a>
+                </li>
             </ul>
         </nav>
     )
