@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
@@ -7,9 +8,18 @@ from .models import TODO, Project
 from .serializers import ProjectModelSerializer, TODOModelSerializer
 
 
+class ProjectLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 10
+
+
+class TODOLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 20
+
+
 class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
+    pagination_class = ProjectLimitOffsetPagination
 
 
 class TODOCustomViewSet(
@@ -17,6 +27,7 @@ class TODOCustomViewSet(
 ):
     queryset = TODO.objects.all()
     serializer_class = TODOModelSerializer
+    pagination_class = TODOLimitOffsetPagination
 
     def destroy(self, request, pk=None):
         todo = get_object_or_404(TODO, pk=pk)
