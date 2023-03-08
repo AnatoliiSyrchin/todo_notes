@@ -17,8 +17,8 @@ class TODO(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True, editable=True)
-    edited_at = models.DateTimeField(auto_now=True, editable=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    edited_at = models.DateTimeField(auto_now=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(choices=IS_ACTIVE_CHOICES)
 
