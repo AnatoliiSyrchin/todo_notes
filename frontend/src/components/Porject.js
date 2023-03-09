@@ -11,7 +11,9 @@ const ProjectItem = ({project}) => {
                 {project.repository}
             </td>
             <td>
-                {project.users}
+                {project.users.map((one_user) => {
+                    return one_user.username + ' '
+                })}
             </td>
         </tr>
     )

@@ -25,7 +25,7 @@ class App extends React.Component {
 				const users = response.data
 				this.setState(
 					{
-						'users': users
+						'users': users.results
 					}
 				)
 			}).catch(error => console.error(error))
@@ -35,7 +35,7 @@ class App extends React.Component {
 				const projects = response.data
 				this.setState(
 					{
-						'projects': projects
+						'projects': projects.results
 					}
 				)
 			}).catch(error => console.error(error))
@@ -45,14 +45,13 @@ class App extends React.Component {
 				const todo = response.data
 				this.setState(
 					{
-						'todo': todo
+						'todo': todo.results
 					}
 				)
 			}).catch(error => console.error(error))
 	}
 
 	render() {
-		console.log(this.state)
 		return (
 			<div>
 				<Menu />
