@@ -6,7 +6,10 @@ import UserList from './components/User';
 import Footer from './components/Footer';
 import ProjectList from './components/Porject';
 import TodoList from './components/Todo';
+import ProjectInfo from './components/ProjectInfo';
 import axios from 'axios';
+import {Navigate, Route, Routes, BrowserRouter} from 'react-router-dom'
+import NotFound404 from './components/NotFound4040';
 
 
 class App extends React.Component {
@@ -54,12 +57,22 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<Menu />
-				<UserList users={this.state.users} />
+				<BrowserRouter>
+					<Menu />
+					<Routes>
+						<Route path='/' element={<UserList users={this.state.users} />}/>
 
-				<ProjectList projects={this.state.projects} />
-				
-				<TodoList todo={this.state.todo} />
+						<Route path='/projects' element={<ProjectList projects={this.state.projects} />}/>
+						
+						<Route path='/todo' element={<TodoList todo={this.state.todo} />} />
+
+						<Route path='/users' element={<Navigate to="/"/>} />
+
+						<Route path='/projects/:name' element={<ProjectInfo projects={this.state.projects} todo={this.state.todo}/>} />
+
+						<Route path='/*' element={<NotFound404 location={window.location}/>} />
+					</Routes>
+				</BrowserRouter>
 				<Footer />
 			</div>
 		)

@@ -1,19 +1,18 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 
 const ProjectItem = ({project}) => {
     return (
         <tr>
             <td>
-                {project.name}
+                <Link to={`/projects/${project.name}`} >{project.name}</Link>
             </td>
             <td>
                 {project.repository}
             </td>
             <td>
-                {project.users.map((one_user) => {
-                    return one_user.username + ' '
-                })}
+                {project.users.map((one_user) => one_user.username + ' ')}
             </td>
         </tr>
     )
