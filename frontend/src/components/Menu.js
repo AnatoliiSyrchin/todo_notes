@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 
 const menuStyle = {
@@ -11,13 +12,16 @@ const Menu = () => {
         <nav style={{backgroundColor: 'lightgrey'}}>
             <ul style={{padding: '10px'}}>
                 <li style={menuStyle}>
-                <a href='http://localhost:3000/'>All users</a>
+                    <Link to='/'>All users</Link>
                 </li>
                 <li style={menuStyle}>
-                    <a href='http://localhost:3000/'>Projects</a>
+                    <Link to='/projects'>Projects</Link>
+                </li>	
+                <li style={menuStyle}>
+                    <Link to='/todo'>TODO</Link>
                 </li>
                 <li style={menuStyle}>
-                    <a href='http://localhost:3000/'>TODO</a>
+                    <Link to='/users'>Test redirect to users</Link>
                 </li>
             </ul>
         </nav>

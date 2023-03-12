@@ -11,7 +11,7 @@ const TodoItem = ({todo}) => {
                 {todo.createdAt}
             </td>
             <td>
-                {todo.user}
+                {todo.user.username}
             </td>
             <td>
                 {todo.project}
