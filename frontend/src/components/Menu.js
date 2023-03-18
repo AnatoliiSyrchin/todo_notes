@@ -23,6 +23,9 @@ const Menu = () => {
                 <li style={menuStyle}>
                     <Link to='/users'>Test redirect to users</Link>
                 </li>
+                <li style={menuStyle}>
+                    <Link to='/login'>Login</Link>
+                </li>
             </ul>
         </nav>
     )

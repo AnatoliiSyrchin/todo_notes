@@ -1,4 +1,7 @@
 import React from 'react';
+import axios from 'axios';
+import {Navigate, Route, Routes, BrowserRouter} from 'react-router-dom'
+
 // import logo from './logo.svg';
 import './App.css';
 import Menu from './components/Menu';
@@ -7,8 +10,7 @@ import Footer from './components/Footer';
 import ProjectList from './components/Porject';
 import TodoList from './components/Todo';
 import ProjectInfo from './components/ProjectInfo';
-import axios from 'axios';
-import {Navigate, Route, Routes, BrowserRouter} from 'react-router-dom'
+import LoginForm from './components/Auth';
 import NotFound404 from './components/NotFound4040';
 
 
@@ -67,6 +69,8 @@ class App extends React.Component {
 						<Route path='/todo' element={<TodoList todo={this.state.todo} />} />
 
 						<Route path='/users' element={<Navigate to="/"/>} />
+
+						<Route path='/login' element={<LoginForm />} />
 
 						<Route path='/projects/:name' element={<ProjectInfo projects={this.state.projects} todo={this.state.todo}/>} />
 
