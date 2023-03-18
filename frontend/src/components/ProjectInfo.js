@@ -14,7 +14,6 @@ const ProjectTodo = ({one_todo}) => {
 const ProjectInfo = ({projects, todo}) => {
     let { name } = useParams();
     let project = projects.find(project => project.name === name)
-    console.log(project)
     let project_todo = todo.filter(one_todo => one_todo.project === parseInt(project.id))
     return(
         <div>
