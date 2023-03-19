@@ -23,22 +23,44 @@ class App extends React.Component {
 			'users': [],
 			'projects': [],
 			'todo': [],
+			'username': '',
 			'access_token':'',
 			'refresh_token':'',
 		}
 	}
 
 	get_token (username, password) {
-		const headers = this.get_headers()
 		axios.post('http://localhost:8000/api/token/',
 			{username: username, password: password},
-			{headers})
+			{headers: {
+				"Content-Type": "application/json"
+			}})
 			.then(response => {
-				this.set_token(response.data)
+				this.set_tokens(response.data)
 			}).catch(error => alert('Wrong login or password'))
 	}
 
-	set_token(tokens) {
+	get_new_access_token(refresh_token) {
+		axios.post('http://localhost:8000/api/token/refresh/',
+			{refresh: refresh_token},
+			{headers: {
+				"Content-Type": "application/json"
+			}})
+			.then(response => {
+				this.set_access_token(response.data['access'], refresh_token)
+			}).catch(error => {
+				alert('Wrong refresh token')
+				console.error(error)
+			})
+	}
+
+	set_access_token(access, refresh_token) {
+		const cookies = new Cookies()
+		cookies.set('access_token', access)
+		this.setState({'access_token': access, 'refresh_token': refresh_token}, ()=>this.load_data())
+	}
+
+	set_tokens(tokens) {
 		const cookies = new Cookies()
 		cookies.set('access_token', tokens['access'])
 		cookies.set('refresh_token', tokens['refresh'])
@@ -50,14 +72,15 @@ class App extends React.Component {
 	}
 
 	logout() {
-		this.set_token({'access':'', 'refresh':''})
+		this.set_tokens({'access':'', 'refresh':''})
 	}
 
 	get_token_from_storage() {
 		const cookies = new Cookies()
-		const access_token = cookies.get('access_token')
 		const refresh_token = cookies.get('refresh_token')
-		this.setState({'access_token': access_token, 'refresh_token': refresh_token}, ()=>this.load_data())
+		if (refresh_token) {
+			this.get_new_access_token(refresh_token)
+		} else this.load_data()
 	}
 	
 	get_headers() {
