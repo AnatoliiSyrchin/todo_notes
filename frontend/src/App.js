@@ -36,7 +36,7 @@ class App extends React.Component {
 				"Content-Type": "application/json"
 			}})
 			.then(response => {
-				this.set_tokens(response.data)
+				this.set_tokens(username, response.data)
 			}).catch(error => alert('Wrong login or password'))
 	}
 
@@ -60,11 +60,12 @@ class App extends React.Component {
 		this.setState({'access_token': access, 'refresh_token': refresh_token}, ()=>this.load_data())
 	}
 
-	set_tokens(tokens) {
+	set_tokens(username, tokens) {
 		const cookies = new Cookies()
+		cookies.set('username', username)
 		cookies.set('access_token', tokens['access'])
 		cookies.set('refresh_token', tokens['refresh'])
-		this.setState({'access_token': tokens['access'], 'refresh_token': tokens['refresh']}, ()=>this.load_data())
+		this.setState({'username': username, 'access_token': tokens['access'], 'refresh_token': tokens['refresh']}, ()=>this.load_data())
 	}
 
 	is_authenticated() {
@@ -72,7 +73,7 @@ class App extends React.Component {
 	}
 
 	logout() {
-		this.set_tokens({'access':'', 'refresh':''})
+		this.set_tokens('', {'access':'', 'refresh':''})
 	}
 
 	get_token_from_storage() {
@@ -144,7 +145,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<BrowserRouter>
-					<Menu is_auth={this.is_authenticated()} logout={() => this.logout()}/>
+					<Menu is_auth={this.is_authenticated()} username={this.state.username} logout={() => this.logout()}/>
 					<Routes>
 						<Route path='/' element={<UserList users={this.state.users} />}/>
 

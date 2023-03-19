@@ -7,6 +7,14 @@ const menuStyle = {
     margin: '10px',
 }
 
+const button = {
+    backgroundColor: 'lightgrey',
+    padding: '5px 10px',
+    border: '1',
+    borderRadius: '6px',
+    fontSize: '16px',
+}
+
 class Menu extends React.Component {
     render() {
         return (
@@ -17,17 +25,20 @@ class Menu extends React.Component {
                     </li>
                     <li style={menuStyle}>
                         <Link to='/projects'>Projects</Link>
-                    </li>	
+                    </li>
                     <li style={menuStyle}>
-                        <Link to='/todo'>TODO</Link>
+                            <Link to='/todo'>TODO</Link>
                     </li>
                     <li style={menuStyle}>
                         <Link to='/users'>Test redirect to users</Link>
                     </li>
+                    <li style={menuStyle}>Hello {this.props.is_auth ? this.props.username : 'stranger'}</li>
                     <li style={menuStyle}>
-                    {/* <button onClick={this.props.logout()}>Logout</button> */}
-                        {this.props.is_auth ? <button onClick={() => this.props.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
-                    </li>
+                        {this.props.is_auth ?
+                                <button style={button} onClick={() => this.props.logout()}>Logout</button> :
+                                <Link to='/login'><button style={button}>Login</button></Link>
+                        }
+                    </li >
                 </ul>
             </nav>
         )
