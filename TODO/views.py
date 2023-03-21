@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import mixins
+from rest_framework import mixins, permissions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -31,6 +31,7 @@ class TODOCustomViewSet(
     serializer_class = TODOModelSerializer
     pagination_class = TODOLimitOffsetPagination
     filterset_class = TODOFilter
+    permission_classes = [permissions.IsAuthenticated]
 
     def destroy(self, request, pk=None):
         todo = get_object_or_404(TODO, pk=pk)
