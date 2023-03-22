@@ -1,8 +1,9 @@
 from django.test import TestCase
+from mixer.backend.django import mixer
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, force_authenticate
+from rest_framework.test import APIClient, APIRequestFactory, force_authenticate
 
-from TODO.models import Project
+from TODO.models import TODO, Project
 from TODO.views import TODOCustomViewSet
 from userapp.models import User
 
@@ -12,8 +13,10 @@ file = open("tests_todo.log", "w")
 class TestTODOViewSet(TestCase):
     def setUp(self) -> None:
         self.admin = User.objects.create_superuser("admin", "admin@admin.com", "admin123456")
-        self.user = User.objects.create(username="user", email="user@mail.ru")
-        self.project = Project.objects.create(name="project")
+        self.user = User.objects.create(username="user", email="user@mail.ru", password="u1")
+        self.project = mixer.blend(Project)
+        self.todo = mixer.blend(TODO, user__username="user2")
+        # print(User.objects.get(username='user').username)
 
     def test_todo_create_admin(self):
         factory = APIRequestFactory()
@@ -36,5 +39,28 @@ class TestTODOViewSet(TestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_todo_get_guest(self):
+        client = APIClient()
+        response = client.get(f"/api/todo/1/")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-# status.HTTP_401_UNAUTHORIZED
+    def test_todo_put_admin(self):
+        client = APIClient()
+        client.login(username="admin", password="admin123456")
+        response = client.put(
+            f"/api/todo/{self.todo.id}/",
+            {
+                "project": 1,
+                "text": "new_text",
+                "user": 3,
+                "is_active": True,
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        new_todo = TODO.objects.get(id=self.todo.id)
+        self.assertEqual(new_todo.user.username, "user2")
+        self.assertEqual(new_todo.text, "new_text")
+        client.logout()
+
+
+status.HTTP_400_BAD_REQUEST
