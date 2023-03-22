@@ -6,7 +6,12 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from .filters import ProjectFilter, TODOFilter
 from .models import TODO, Project
-from .serializers import ProjectModelSerializer, TODOModelSerializer
+from .serializers import (
+    ProjectModelListSerializer,
+    ProjectModelSerializer,
+    TODOModelListSerializer,
+    TODOModelSerializer,
+)
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -19,19 +24,29 @@ class TODOLimitOffsetPagination(LimitOffsetPagination):
 
 class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
-    serializer_class = ProjectModelSerializer
+    serializer_class = ProjectModelListSerializer
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
+
+    def get_serializer_class(self):
+        if self.request.method in ["GET"]:
+            return ProjectModelListSerializer
+        return ProjectModelSerializer
 
 
 class TODOCustomViewSet(
     mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, GenericViewSet
 ):
     queryset = TODO.objects.all()
-    serializer_class = TODOModelSerializer
+    serializer_class = TODOModelListSerializer
     pagination_class = TODOLimitOffsetPagination
     filterset_class = TODOFilter
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method in ["GET"]:
+            return TODOModelListSerializer
+        return TODOModelSerializer
 
     def destroy(self, request, pk=None):
         todo = get_object_or_404(TODO, pk=pk)
