@@ -5,18 +5,29 @@ from userapp.serializers import UserModelSerializer
 from .models import TODO, Project
 
 
-class ProjectModelSerializer(ModelSerializer):
-    users = UserModelSerializer(many=True)
+class ProjectModelListSerializer(ModelSerializer):
+    users = UserModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
         fields = "__all__"
 
 
-class TODOModelSerializer(ModelSerializer):
-    user = UserModelSerializer()
+class ProjectModelSerializer(ModelSerializer):
+    class Meta:
+        model = Project
+        fields = "__all__"
+
+
+class TODOModelListSerializer(ModelSerializer):
+    user = UserModelSerializer(read_only=True)
 
     class Meta:
         model = TODO
         fields = "__all__"
-        # exclude = ['created_at', 'edited_at']
+
+
+class TODOModelSerializer(ModelSerializer):
+    class Meta:
+        model = TODO
+        fields = "__all__"
