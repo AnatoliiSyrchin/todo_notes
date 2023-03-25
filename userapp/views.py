@@ -1,7 +1,7 @@
 from rest_framework import mixins, viewsets
 
 from .models import User
-from .serializers import UserModelSerializer
+from .serializers import UserModelSerializer, UserModelSerializerFull
 
 
 class UserCustomViewSet(
@@ -9,3 +9,8 @@ class UserCustomViewSet(
 ):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == "1.2":
+            return UserModelSerializerFull
+        return UserModelSerializer
