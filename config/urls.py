@@ -35,6 +35,6 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # path("api/<str:version>/users/", UserCustomViewSet.as_view({"get": "list"}), name="users_version"),
-    path("api/1.1/users/", include("userapp.urls", namespace="1.1")),
-    path("api/1.2/users/", include("userapp.urls", namespace="1.2")),
+    # path("api/1.1/users/", include("userapp.urls", namespace="1.1")),
+    # path("api/1.2/users/", include("userapp.urls", namespace="1.2")),
 ]
