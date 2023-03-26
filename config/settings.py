@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "TODO",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
