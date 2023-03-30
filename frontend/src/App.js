@@ -10,6 +10,7 @@ import UserList from './components/User';
 import Footer from './components/Footer';
 import ProjectList from './components/Porject';
 import TodoList from './components/Todo';
+import TodoForm from './components/TodoForm';
 import ProjectInfo from './components/ProjectInfo';
 import LoginForm from './components/Auth';
 import NotFound404 from './components/NotFound4040';
@@ -94,6 +95,13 @@ class App extends React.Component {
 		return headers
 	}
 	
+	deleteTodo(id) {
+		const headers = this.get_headers()
+		axios.delete(`http://localhost:8000/api/todo/${id}`, {headers})
+		this.load_data()
+		// console.log(this.state.todo)
+	}
+
 	load_data() {
 		const headers = this.get_headers()
 		axios.get('http://localhost:8000/api/users', {headers})
@@ -151,7 +159,11 @@ class App extends React.Component {
 
 						<Route path='/projects' element={<ProjectList projects={this.state.projects} />}/>
 						
-						<Route path='/todo' element={<TodoList todo={this.state.todo} />} />
+						<Route path='/todo' element={<TodoList todo={this.state.todo} deleteTodo={(id) => this.deleteTodo(id)}/>} />
+
+						<Route path='/todo/create' element={<TodoForm />} />
+
+						<Route path='/todo/create' element={<NotFound404 location={window.location} />}/>
 
 						<Route path='/users' element={<Navigate to="/"/>} />
 
