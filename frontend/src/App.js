@@ -98,8 +98,20 @@ class App extends React.Component {
 	deleteTodo(id) {
 		const headers = this.get_headers()
 		axios.delete(`http://localhost:8000/api/todo/${id}`, {headers})
-		this.load_data()
+		.then(response => {
+			this.load_data()
+		}).catch(error => console.log(error))
 		// console.log(this.state.todo)
+	}
+
+	createTodo(text, project, user) {
+		const headers = this.get_headers()
+		const data = {text: text, project: project, isActive: true, user: user}
+		console.log(headers, data)
+		axios.post('http://localhost:8000/api/todo/', data, {headers})
+			.then(response => {
+				this.load_data()
+			}).catch(error => console.log(error))
 	}
 
 	load_data() {
@@ -161,9 +173,7 @@ class App extends React.Component {
 						
 						<Route path='/todo' element={<TodoList todo={this.state.todo} deleteTodo={(id) => this.deleteTodo(id)}/>} />
 
-						<Route path='/todo/create' element={<TodoForm />} />
-
-						<Route path='/todo/create' element={<NotFound404 location={window.location} />}/>
+						<Route path='/todo/create' element={<TodoForm projects={this.state.projects} users={this.state.users} createTodo={(text, project, user) => this.createTodo(text, project, user)}/>} />
 
 						<Route path='/users' element={<Navigate to="/"/>} />
 

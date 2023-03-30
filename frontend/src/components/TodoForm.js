@@ -3,20 +3,17 @@ import React from 'react'
 class TodoForm extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {text: '', project: 0, user: 0}
+        this.state = {text: '', project: props.projects[0].id, user: props.users[0].id}
     }
 
     handleChange(event) {
-        // console.log(event.target.name)
         this.setState(
             {[event.target.name]: event.target.value}
         );
     }
 
     handleSubmit(event) {
-        console.log(this.state.text)
-        console.log(this.state.project)
-        console.log(this.state.user)
+        this.props.createTodo(this.state.text, this.state.project, this.state.user)
         event.preventDefault()
     }
 
@@ -24,19 +21,21 @@ class TodoForm extends React.Component {
         return (
             <form onSubmit={(event)=> this.handleSubmit(event)}>
                 <div className="form-group">
-                    <label for="text">text</label>
+                    <label for="text">Text </label>
                     <input type="text" className="form-control" name="text"
                         value={this.state.text} onChange={(event)=>this.handleChange(event)} />
                 </div>
-                <div className="form-group">
-                    <label for="project">project</label>
-                    <input type="number" className="form-control" name="project"
-                        value={this.state.project} onChange={(event)=>this.handleChange(event)} />
+                <div>
+                    <label for="project">Project </label>
+                    <select onChange={this.handleChange} name="project">
+                        {this.props.projects.map((item)=><option value={item.id}>{item.name}</option>)}
+                    </select>
                 </div>
-                <div className="form-group">
-                    <label for="user">user</label>
-                    <input type="number" className="form-control" name="user"
-                        value={this.state.user} onChange={(event)=>this.handleChange(event)} />
+                <div>
+                    <label for="user">User </label>
+                    <select onChange={this.handleChange} name="user">
+                        {this.props.users.map((item)=><option value={item.id}>{item.username}</option>)}
+                    </select>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Save" />
             </form>
