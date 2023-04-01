@@ -27,14 +27,14 @@ class TodoForm extends React.Component {
                 </div>
                 <div>
                     <label for="project">Project </label>
-                    <select onChange={this.handleChange} name="project">
+                    <select onChange={(event)=>this.handleChange(event)} name="project">
                         {this.props.projects.map((item)=><option value={item.id}>{item.name}</option>)}
                     </select>
                 </div>
                 <div>
                     <label for="user">User </label>
-                    <select onChange={this.handleChange} name="user">
-                        {this.props.users.map((item)=><option value={item.id}>{item.username}</option>)}
+                    <select onChange={(event)=>this.handleChange(event)} name="user">
+                        {this.props.users.map((item)=><option value={parseInt(item.id)}>{item.username}</option>)}
                     </select>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Save" />
