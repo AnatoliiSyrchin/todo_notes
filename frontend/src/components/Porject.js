@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom'
 
 const button = {
     backgroundColor: 'lightgrey',
-    padding: '5px 10px',
+    padding: '4px 4px',
     border: '1',
-    borderRadius: '6px',
+    borderRadius: '4px',
     fontSize: '16px',
 }
 
@@ -40,7 +40,10 @@ class ProjectList extends React.Component {
                     {project.users.map((one_user) => one_user.username + ' ')}
                 </td>
                 <td>
-                    <button onClick={() => deleteProject(parseInt(project.id))}>Delete</button>
+                    <button style={button} onClick={() => deleteProject(parseInt(project.id))}>Delete</button>
+                </td>
+                <td>
+                    <Link to={`/projects/edit/${project.id}`}><button style={button}>Edit</button></Link>
                 </td>
             </tr>
         )
@@ -64,6 +67,7 @@ class ProjectList extends React.Component {
                     <th>
                         Users
                     </th>
+                    <th></th>
                     <th></th>
                     {this.search !== ''
                         ? this.state.projects.map((project) =>

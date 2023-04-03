@@ -10,6 +10,7 @@ import UserList from './components/User';
 import Footer from './components/Footer';
 import ProjectList from './components/Porject';
 import ProjectForm from './components/ProjectForm';
+import ProjectEdit from './components/ProjectEdit';
 import TodoList from './components/Todo';
 import TodoForm from './components/TodoForm';
 import ProjectInfo from './components/ProjectInfo';
@@ -163,6 +164,17 @@ class App extends React.Component {
 			}).catch(error => console.log(error))
 	}
 
+	editProject(id, name, repository, users) {
+		const headers = this.get_headers()
+		console.log(id, name, repository, users)
+		const data = {id: id, name: name, repository: repository, users: users}
+		axios.patch(`http://localhost:8000/api/projects/${id}/`, data, {headers})
+			.then(response => {
+				<Navigate to="/projects"/>
+				this.load_data()
+			}).catch(error => console.log(error))
+	}
+
 	deleteProject(id) {
 		const headers = this.get_headers()
 		axios.delete(`http://localhost:8000/api/projects/${id}`, {headers})
@@ -182,6 +194,10 @@ class App extends React.Component {
 						<Route path='/projects' element={<ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)}/>}/>
 
 						<Route path='/projects/create' element={<ProjectForm users={this.state.users} createProject={(name, repository, users) => this.createProject(name, repository, users)}/>} />
+
+						<Route path='/projects/edit/:id' element={<ProjectEdit projects={this.state.projects} users={this.state.users} editProject={(id, name, repository, users) => this.editProject(id, name, repository, users)}/>} />
+
+						<Route path='/projects/:name' element={<ProjectInfo projects={this.state.projects} todo={this.state.todo}/>} />
 						
 						<Route path='/todo' element={<TodoList todo={this.state.todo} deleteTodo={(id) => this.deleteTodo(id)}/>} />
 
@@ -190,8 +206,6 @@ class App extends React.Component {
 						<Route path='/users' element={<Navigate to="/"/>} />
 
 						<Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)}/>} />
-
-						<Route path='/projects/:name' element={<ProjectInfo projects={this.state.projects} todo={this.state.todo}/>} />
 
 						<Route path='/*' element={<NotFound404 location={window.location}/>} />
 					</Routes>
