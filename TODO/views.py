@@ -24,7 +24,7 @@ class TODOLimitOffsetPagination(LimitOffsetPagination):
 
 class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
-    serializer_class = ProjectModelListSerializer
+    # serializer_class = ProjectModelListSerializer
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
 
@@ -38,7 +38,7 @@ class TODOCustomViewSet(
     mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, GenericViewSet
 ):
     queryset = TODO.objects.all()
-    serializer_class = TODOModelListSerializer
+    # serializer_class = TODOModelListSerializer
     pagination_class = TODOLimitOffsetPagination
     filterset_class = TODOFilter
     permission_classes = [permissions.IsAuthenticated]

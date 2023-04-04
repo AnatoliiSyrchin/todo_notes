@@ -1,7 +1,15 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
+const button = {
+    backgroundColor: 'lightgrey',
+    padding: '5px 10px',
+    border: '1',
+    borderRadius: '6px',
+    fontSize: '16px',
+}
 
-const TodoItem = ({todo}) => {
+const TodoItem = ({todo, deleteTodo}) => {
     return (
         <tr>
             <td>
@@ -16,11 +24,17 @@ const TodoItem = ({todo}) => {
             <td>
                 {todo.project}
             </td>
+            <td>
+                {todo.isActive ? 'Active' : 'Deleted'}
+            </td>
+            <td>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const TodoList = ({todo}) => {
+const TodoList = ({todo, deleteTodo}) => {
     return (
         <div>
             <h3>TODO</h3>
@@ -37,8 +51,13 @@ const TodoList = ({todo}) => {
                 <th>
                     Project
                 </th>
-                {todo.map((todo) => <TodoItem todo={todo} />)}
+                <th>
+                    Status
+                </th>
+                <th></th>
+                {todo.map((todo) => <TodoItem todo={todo} deleteTodo={deleteTodo} />)}
             </table>
+            <Link to='/todo/create'><button style={button}>Create TODO</button></Link>
         </div>
     )
 }
