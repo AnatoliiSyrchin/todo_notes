@@ -15,6 +15,13 @@ class Command(BaseCommand):
             is_superuser=True,
             is_staff=True,
         )
+        User.objects.create_user(
+            username="postgresuser",
+            first_name="pu first name",
+            last_name="pu last name",
+            email="pu@mail.ru",
+            password="pu1",
+        )
         for i in range(1, 5):
             User.objects.create_user(
                 username=f"user_{i}",
@@ -23,3 +30,4 @@ class Command(BaseCommand):
                 email=f"user{i}@mail.ru",
                 password=f"u{i}",
             )
+
