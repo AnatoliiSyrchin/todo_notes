@@ -19,14 +19,27 @@ services:
   
   backend:
     build: ./todo_notes
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     command: bash -c "
-      python manage.py migrate
-      && python manage.py addusers
-      && python manage.py addtodo
-      && python manage.py runserver 0.0.0.0:8080"
+      python manage.py migrate &&
+      python manage.py addusers &&
+      python manage.py addtodo &&
+      gunicorn config.wsgi -b 0.0.0.0:8080"
     depends_on:
       db:
         condition: service_healthy
   
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+    depends_on:
+      - nginx

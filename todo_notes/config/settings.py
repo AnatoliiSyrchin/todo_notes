@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-nhq4r+6uqz76tkbi+8s47dfp(cx#9dh50cul=7iwo8rkw(4%4r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -66,7 +66,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "config/templates",
-            BASE_DIR / "../frontend/build",
+            BASE_DIR / "frontend/build",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -135,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "../frontend/build/static/",]
+STATICFILES_DIRS = [BASE_DIR / "/frontend/build/static/",]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -146,6 +146,10 @@ AUTH_USER_MODEL = "userapp.User"
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0",
 ]
 
 # from rest_framework.permissions import IsAuthenticatedOrReadOnly
