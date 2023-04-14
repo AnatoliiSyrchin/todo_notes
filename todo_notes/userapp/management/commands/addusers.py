@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-
 from userapp.models import User
 
 
@@ -30,4 +29,3 @@ class Command(BaseCommand):
                 email=f"user{i}@mail.ru",
                 password=f"u{i}",
             )
-

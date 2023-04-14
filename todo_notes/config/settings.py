@@ -66,7 +66,6 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "config/templates",
-            BASE_DIR / "frontend/build",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -92,8 +91,8 @@ DATABASES = {
         "NAME": "db",
         "PASSWORD": "1",
         "USER": "admin",
-        "HOST":"db",
-        "POST":"5432"
+        "HOST": "db",
+        "POST": "5432",
     }
 }
 
@@ -134,8 +133,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+BASE_DIR / "frontend/build",
+
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "/frontend/build/static/",]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -143,14 +144,6 @@ STATICFILES_DIRS = [BASE_DIR / "/frontend/build/static/",]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "userapp.User"
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://0.0.0.0",
-]
 
 # from rest_framework.permissions import IsAuthenticatedOrReadOnly
 REST_FRAMEWORK = {
@@ -166,8 +159,8 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
-        # "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",

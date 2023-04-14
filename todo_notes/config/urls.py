@@ -24,7 +24,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view as get_drf_schema
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
 from TODO.views import ProjectModelViewSet, TODOCustomViewSet
 from userapp.views import UserCustomViewSet
 
@@ -68,5 +67,5 @@ urlpatterns = [
         name="redoc",
     ),
     path("graphql/", GraphQLView.as_view(graphiql=True)),
-    path("", TemplateView.as_view(template_name="index.html")),
+    # path("", TemplateView.as_view(template_name="index.html")),
 ]
