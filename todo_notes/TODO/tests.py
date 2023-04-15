@@ -2,7 +2,6 @@ from django.test import TestCase
 from mixer.backend.django import mixer
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase, force_authenticate
-
 from TODO.models import TODO, Project
 from TODO.views import TODOCustomViewSet
 from userapp.models import User

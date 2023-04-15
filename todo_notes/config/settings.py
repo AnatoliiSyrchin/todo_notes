@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-nhq4r+6uqz76tkbi+8s47dfp(cx#9dh50cul=7iwo8rkw(4%4r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -66,7 +66,6 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "config/templates",
-            BASE_DIR / "frontend/build",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -88,8 +87,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "db",
+        "PASSWORD": "1",
+        "USER": "admin",
+        "HOST": "db",
+        "POST": "5432",
     }
 }
 
@@ -130,8 +133,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+BASE_DIR / "frontend/build",
+
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "frontend/build/static/",]
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -139,10 +144,6 @@ STATICFILES_DIRS = [BASE_DIR / "frontend/build/static/",]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "userapp.User"
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
 
 # from rest_framework.permissions import IsAuthenticatedOrReadOnly
 REST_FRAMEWORK = {
@@ -158,8 +159,8 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
-        # "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",

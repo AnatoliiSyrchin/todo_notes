@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:15.2
+    privileged: true
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d db -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  backend:
+    build: ./todo_notes
+    expose:
+      - 8080
+    command: bash -c "
+      python manage.py migrate &&
+      python manage.py addusers &&
+      python manage.py addtodo &&
+      python manage.py collectstatic --noinput &&
+      gunicorn config.wsgi -b 0.0.0.0:8080"
+    volumes:
+      - /static:/static
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    volumes:
+      - /static:/static
+    depends_on:
+      - backend
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+    depends_on:
+      - nginx
